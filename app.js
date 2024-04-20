@@ -1,4 +1,4 @@
-const contractAddress = '0x1A4c2B30DcE529C5970eeCBE0e7869618c5bf7d7';
+const contractAddress = '0x61199Da90361eE12C1c552d81FE27F4376aF4B2A';
 const abi = [
     {
         "anonymous": false,
@@ -138,36 +138,29 @@ const abi = [
         "name": "getLOC",
         "outputs": [
             {
-                "components": [
-                    {
-                        "internalType": "uint256",
-                        "name": "id",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "buyerBank",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "sellerBank",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "enum LetterOfCredit.Status",
-                        "name": "status",
-                        "type": "uint8"
-                    }
-                ],
-                "internalType": "struct LetterOfCredit.LOC",
+                "internalType": "uint256",
                 "name": "",
-                "type": "tuple"
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "enum LetterOfCredit.Status",
+                "name": "",
+                "type": "uint8"
             }
         ],
         "stateMutability": "view",
@@ -326,17 +319,42 @@ async function rejectLOC() {
     });
 }
 
+// async function getLOC() {
+//     const locId = document.getElementById('locIdGet').value;
+
+//     const accounts = await web3.eth.getAccounts();
+//     contract.methods.getLOC(locId).send({from: accounts[0]})
+//     .then(function(result) {
+//         console.log('Following is the LOC Information\nLOC ID: ', result[0], '\nBuyer Address: ', result[1], '\nSeller Address: ', result[2], '\nAmount: ', result[3], '\nStatus: ', ['Pending', 'Approved', 'Fulfilled', 'Rejected'][result[4]]);
+//         alert('Following is the LOC Information\nLOC ID: ' + result[0] + '\nBuyer Address: ' + result[1] + '\nSeller Address: ' + result[2] + '\nAmount: ' + result[3] + '\nStatus: ' + ['Pending', 'Approved', 'Fulfilled', 'Rejected'][result[4]]);
+//     }).catch(function(error) {
+//         console.error(error);
+//         alert(error.message);
+//     });
+// }
+
 async function getLOC() {
     const locId = document.getElementById('locIdGet').value;
+    if (!locId) {
+        alert("Please enter a valid LOC ID.");
+        return;
+    }
 
     const accounts = await web3.eth.getAccounts();
-    contract.methods.getLOC(locId).send({from: accounts[0]})
-    .then(function(result) {
-        console.log('Following is the LOC Information\nLOC ID: ', result.id, '\nBuyer Address: ', result.buyerBank, '\nSeller Address: ', result.sellerBank, '\nAmount: ', result.amount, '\nStatus: ', result.status);
-        alert('Following is the LOC Information\nLOC ID: ' + result.id + '\nBuyer Address: ' + result.buyerBank + '\nSeller Address: ' + result.sellerBank + '\nAmount: ' + result.amount + '\nStatus: ' + result.status);
-    }).catch(function(error) {
-        console.error(error);
-        alert(error.message);
+    contract.methods.getLOC(locId).call({from: accounts[0]})
+    .then(function(loc) {
+        console.log('LOC Details:', loc);
+        document.getElementById('locDetails').innerHTML = `
+            <p>LOC ID: ${loc[0]}</p>
+            <p>Buyer Bank: ${loc[1]}</p>
+            <p>Seller Bank: ${loc[2]}</p>
+            <p>Amount: ${web3.utils.fromWei(loc[3], 'ether')} ETH</p>
+            <p>Status: ${['Pending', 'Approved', 'Fulfilled', 'Rejected'][loc[4]]}</p>
+        `;
+    })
+    .catch(error => {
+        console.error('Error fetching LOC:', error);
+        alert('Failed to fetch LOC details. Error: ' + error.message);
     });
 }
 
