@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.4;
 
 contract LetterOfCredit {
@@ -50,8 +50,9 @@ contract LetterOfCredit {
         emit LOCRejected(_locId);
     }
 
-    function getLOC(uint _locId) public view returns (LOC memory) {
+    function getLOC(uint _locId) public view returns (uint, address, address, uint, Status) {
         require(_locId < locs.length, "Invalid locId");
-        return locs[_locId];
+        LOC storage loc = locs[_locId];
+        return (loc.id, loc.buyerBank, loc.sellerBank, loc.amount, loc.status);
     }
 }
