@@ -111,6 +111,7 @@ const abi = [
     },
     {
         "inputs": [
+            
             {
                 "internalType": "address",
                 "name": "_sellerBank",
@@ -229,36 +230,48 @@ const abi = [
 let contract;
 let web3;
 
-async function initWeb3() {
-    if (window.ethereum) {
+async function initWeb3() 
+{
+    if (window.ethereum) 
+    {
         web3 = new Web3(window.ethereum);
-        try {
+        try 
+        {
             await window.ethereum.enable();
             initContract();
-        } catch (error) {
+        } 
+        catch (error) 
+        {
             console.error("User denied account access")
         }
-    } else if (window.web3) {
+    } 
+    else if (window.web3) 
+    {
         web3 = new Web3(window.web3.currentProvider);
         initContract();
-    } else {
+    } 
+    else 
+    {
         console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
 }
-
-function initContract() {
+function initContract() 
+{
     contract = new web3.eth.Contract(abi, contractAddress);
 }
 
-async function requestLOC() {
+async function requestLOC() 
+{
     const sellerBankAddress = document.getElementById('sellerBankAddress').value;
-    if (!web3.utils.isAddress(sellerBankAddress) || sellerBankAddress === "0x0000000000000000000000000000000000000000") {
+    if (!web3.utils.isAddress(sellerBankAddress) || sellerBankAddress === "0x0000000000000000000000000000000000000000") 
+    {
         alert("Invalid bank address. Please check the address and try again.");
         return;
     }
     
     const docAmount = document.getElementById('amount').value;
-    if (docAmount <= 0) {
+    if (docAmount <= 0) 
+    {
         console.log("Amount must be greater than zero.");
         alert("Amount must be greater than zero.");
         return;
@@ -291,7 +304,8 @@ async function approveLOC() {
     });
 }
 
-async function fulfillLOC() {
+async function fulfillLOC() 
+{
     const locId = document.getElementById('locIdFulfill').value;
 
     const accounts = await web3.eth.getAccounts();
@@ -305,9 +319,9 @@ async function fulfillLOC() {
     });
 }
 
-async function rejectLOC() {
+async function rejectLOC() 
+{
     const locId = document.getElementById('locIdReject').value;
-
     const accounts = await web3.eth.getAccounts();
     contract.methods.rejectLOC(locId).send({from: accounts[0]})
     .then(function(result) {
@@ -318,20 +332,6 @@ async function rejectLOC() {
         alert(error.message);
     });
 }
-
-// async function getLOC() {
-//     const locId = document.getElementById('locIdGet').value;
-
-//     const accounts = await web3.eth.getAccounts();
-//     contract.methods.getLOC(locId).send({from: accounts[0]})
-//     .then(function(result) {
-//         console.log('Following is the LOC Information\nLOC ID: ', result[0], '\nBuyer Address: ', result[1], '\nSeller Address: ', result[2], '\nAmount: ', result[3], '\nStatus: ', ['Pending', 'Approved', 'Fulfilled', 'Rejected'][result[4]]);
-//         alert('Following is the LOC Information\nLOC ID: ' + result[0] + '\nBuyer Address: ' + result[1] + '\nSeller Address: ' + result[2] + '\nAmount: ' + result[3] + '\nStatus: ' + ['Pending', 'Approved', 'Fulfilled', 'Rejected'][result[4]]);
-//     }).catch(function(error) {
-//         console.error(error);
-//         alert(error.message);
-//     });
-// }
 
 async function getLOC() {
     const locId = document.getElementById('locIdGet').value;
@@ -358,6 +358,7 @@ async function getLOC() {
     });
 }
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function() 
+{
     initWeb3();
 });
