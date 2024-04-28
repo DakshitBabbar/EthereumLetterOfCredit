@@ -1,33 +1,26 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: 'Times New Roman', Times, serif, sans-serif;
+    background-color: #f9f9f9;
+    color: #444;
     margin: 0;
     padding: 20px;
 }
 
 h1 {
-    color: #0275d8; 
-    font-size: 60px; 
-   
+    color: #0056b3;
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 0;
+    padding-top: 20px;
 }
 
 h2 {
-    color: #5a5a5a; 
-    font-size: 24px; 
-    border-bottom: 2px solid #dedede; 
-    padding-bottom: 10px; 
-    margin-bottom: 20px; 
-    margin-top: 40px; 
-}
-input[type="text"] {
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 16px;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    width: calc(100% - 24px); 
-    box-sizing: border-box; 
+    color: #5a5a5a;
+    font-size: 24px;
+    border-bottom: 2px solid #dedede;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 .form-section {
@@ -35,9 +28,17 @@ input[type="text"] {
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+input[type="text"] {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 16px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    width: calc(100% - 24px);
+    box-sizing: border-box;
+}
 
 button {
     background-color: #5cb85c;
